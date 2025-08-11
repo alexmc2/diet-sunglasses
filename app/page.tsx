@@ -7,7 +7,7 @@ export default async function Home() {
 
   if (error || images.length === 0) {
     return (
-      <div className="min-h-screen flex flex-col">
+      <div className="h-screen flex flex-col">
         <Header />
         <div className="flex-1 flex items-center justify-center">
           <p className="text-slate-200">
@@ -19,7 +19,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="h-screen flex flex-col">
       <Header />
       <main className="flex-1 flex flex-col">
         <PhotoSlideshow images={images} />
