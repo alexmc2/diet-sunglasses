@@ -189,7 +189,7 @@ export default function PhotoSlideshow({
         <div className="flex items-center gap-2">
           <button
             onClick={togglePlayPause}
-            className="p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
+            className="w-9 h-9 rounded-full hover:bg-white/10 transition-colors cursor-pointer flex items-center justify-center"
             aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
           >
             {isPlaying ? (
@@ -221,7 +221,7 @@ export default function PhotoSlideshow({
             onValueChange={(value) => handleIntervalChange(Number(value))}
           >
             <SelectTrigger
-              className="w-[50px] h-7 text-xs text-slate-200 border-slate-600"
+              className="w-[60px] h-9 text-xs text-slate-200 border-slate-600"
               aria-label="Change slideshow speed"
             >
               <SelectValue />
@@ -236,7 +236,7 @@ export default function PhotoSlideshow({
 
           <button
             onClick={goToNext}
-            className="p-2 rounded-full hover:bg-white/10  transition-colors cursor-pointer"
+            className="w-9 h-9 rounded-full hover:bg-white/10 transition-colors cursor-pointer flex items-center justify-center"
             aria-label="Next image"
           >
             <svg
