@@ -1,8 +1,8 @@
 export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 h-24 flex items-start justify-between z-30 pt-4 md:pt-4">
-      <h1 className="text-4xl md:text-6xl font-bold text-slate-300 tracking-tight pl-4 md:pl-8">
-        <span className="md:hidden">diet sunglasses</span>
+      <h1 className="text-3xl md:text-5xl font-bold text-slate-300 tracking-tight pl-4 md:pl-8">
+        <span className="md:hidden">diet sunglasses photography</span>
         <span className="hidden md:inline">diet sunglasses photography</span>
       </h1>
       
