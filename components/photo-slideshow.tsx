@@ -82,12 +82,6 @@ export default function PhotoSlideshow({
     setRecentIndices(prev => [...prev, newIndex].slice(-Math.min(images.length - 1, 10)));
   }, [getRandomIndex, transition, images.length]);
 
-  const goToPrevious = useCallback(() => {
-    const newIndex = getRandomIndex();
-    transition(newIndex);
-    setRecentIndices(prev => [...prev, newIndex].slice(-Math.min(images.length - 1, 10)));
-  }, [getRandomIndex, transition, images.length]);
-
 
   const togglePlayPause = () => {
     setIsPlaying(!isPlaying);
@@ -192,77 +186,53 @@ export default function PhotoSlideshow({
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 h-20 flex items-center justify-center px-4 md:px-8 ">
-        <div className="max-w-4xl w-full flex items-center gap-4">
+        <div className="flex items-center gap-2">
           <button
-            onClick={goToPrevious}
+            onClick={togglePlayPause}
             className="p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
-            aria-label="Previous image"
+            aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
           >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-              fill="none"
-              className="text-slate-200"
-            >
-              <path
-                d="M12 14L8 10L12 6"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            {isPlaying ? (
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                className="text-slate-200"
+              >
+                <rect x="5" y="4" width="2" height="8" fill="currentColor" />
+                <rect x="9" y="4" width="2" height="8" fill="currentColor" />
+              </svg>
+            ) : (
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                className="text-slate-200"
+              >
+                <path d="M5 4L11 8L5 12V4Z" fill="currentColor" />
+              </svg>
+            )}
           </button>
 
-          <div className="flex-1 flex items-center justify-center gap-2">
-            <button
-              onClick={togglePlayPause}
-              className="p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
-              aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
+          <Select
+            value={String(autoPlayInterval)}
+            onValueChange={(value) => handleIntervalChange(Number(value))}
+          >
+            <SelectTrigger
+              className="w-[50px] h-7 text-xs text-slate-200 border-slate-600"
+              aria-label="Change slideshow speed"
             >
-              {isPlaying ? (
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  className="text-slate-200"
-                >
-                  <rect x="5" y="4" width="2" height="8" fill="currentColor" />
-                  <rect x="9" y="4" width="2" height="8" fill="currentColor" />
-                </svg>
-              ) : (
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  className="text-slate-200"
-                >
-                  <path d="M5 4L11 8L5 12V4Z" fill="currentColor" />
-                </svg>
-              )}
-            </button>
-
-            <Select
-              value={String(autoPlayInterval)}
-              onValueChange={(value) => handleIntervalChange(Number(value))}
-            >
-              <SelectTrigger
-                className="w-[50px] h-7 text-xs text-slate-200 border-slate-600"
-                aria-label="Change slideshow speed"
-              >
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent position="popper" side="top" align="center">
-                <SelectItem value="3000">3s</SelectItem>
-                <SelectItem value="5000">5s</SelectItem>
-                <SelectItem value="8000">8s</SelectItem>
-                <SelectItem value="10000">10s</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent position="popper" side="top" align="center">
+              <SelectItem value="3000">3s</SelectItem>
+              <SelectItem value="5000">5s</SelectItem>
+              <SelectItem value="8000">8s</SelectItem>
+              <SelectItem value="10000">10s</SelectItem>
+            </SelectContent>
+          </Select>
 
           <button
             onClick={goToNext}
