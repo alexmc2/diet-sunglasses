@@ -54,22 +54,21 @@ export default function PhotoSlideshow({
   );
 
   const goToNext = useCallback(() => {
-    const newIndex = (currentIndex + 1) % images.length;
+    let newIndex;
+    do {
+      newIndex = Math.floor(Math.random() * images.length);
+    } while (newIndex === currentIndex && images.length > 1);
     transition(newIndex);
   }, [currentIndex, images.length, transition]);
 
   const goToPrevious = useCallback(() => {
-    const newIndex = (currentIndex - 1 + images.length) % images.length;
+    let newIndex;
+    do {
+      newIndex = Math.floor(Math.random() * images.length);
+    } while (newIndex === currentIndex && images.length > 1);
     transition(newIndex);
   }, [currentIndex, images.length, transition]);
 
-  const goToImage = useCallback(
-    (index: number) => {
-      if (index === currentIndex || isTransitioning) return;
-      transition(index);
-    },
-    [currentIndex, isTransitioning, transition]
-  );
 
   const togglePlayPause = () => {
     setIsPlaying(!isPlaying);
@@ -197,27 +196,7 @@ export default function PhotoSlideshow({
             </svg>
           </button>
 
-          <div className="flex-1 flex items-center gap-2">
-            <div className="flex-1 relative h-1 bg-white/20 rounded-full overflow-hidden">
-              <div className="absolute inset-0 flex gap-[2px]">
-                {images.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => goToImage(index)}
-                    className={`flex-1 h-full transition-all ${
-                      index === currentIndex
-                        ? 'bg-slate-200'
-                        : index < currentIndex
-                        ? 'bg-slate-200/50'
-                        : 'bg-white/20 hover:bg-white/30'
-                    }`}
-                    aria-label={`Go to image ${index + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2">
+          <div className="flex-1 flex items-center justify-center gap-2">
               <button
                 onClick={togglePlayPause}
                 className="p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
@@ -276,7 +255,6 @@ export default function PhotoSlideshow({
                   <SelectItem value="10000">10s</SelectItem>
                 </SelectContent>
               </Select>
-            </div>
           </div>
 
           <button

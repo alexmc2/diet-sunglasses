@@ -3,11 +3,11 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 h-24 flex items-start justify-between px-4 md:px-8 z-30 pt-4 md:pt-4">
       <h1 className="text-4xl md:text-6xl font-bold text-slate-300 tracking-tight">diet sunglasses</h1>
       
-      <div className="flex items-center gap-3 md:gap-4 pt-1 md:pt-2">
+      <div className="flex items-center gap-1 md:gap-4 pt-1 md:pt-2">
         {/* Contact icon */}
         <a
           href="mailto:diet.sunglasses.photography@gmail.com"
-          className="p-1.5 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
+          className="p-1.5 rounded-full hover:bg-white/10 transition-colors cursor-pointer ml-2"
           aria-label="Contact"
         >
           <svg
@@ -32,7 +32,7 @@ export default function Header() {
           href="https://www.instagram.com/citizenband/"
           target="_blank"
           rel="noopener noreferrer"
-          className="p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
+          className="p-2  rounded-full hover:bg-white/10 transition-colors cursor-pointer"
           aria-label="Instagram"
         >
           <svg
