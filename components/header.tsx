@@ -1,9 +1,13 @@
 export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 h-24 flex items-start justify-between z-30 pt-4 md:pt-4">
-      <h1 className="text-3xl md:text-5xl font-bold text-slate-300 tracking-tight pl-4 md:pl-8">
-        <span className="md:hidden">diet sunglasses photography</span>
-        <span className="hidden md:inline">diet sunglasses photography</span>
+      <h1 className="text-3xl md:text-5xl font-bold tracking-tight pl-4 md:pl-8">
+        <span className="md:hidden">
+          <span className="text-white">diet sunglasses</span> <span className="text-slate-400">photography</span>
+        </span>
+        <span className="hidden md:inline">
+          <span className="text-white">diet sunglasses</span> <span className="text-slate-400">photography</span>
+        </span>
       </h1>
       
       <div className="flex items-center gap-1 md:gap-4 pt-1 md:pt-2 pr-2 md:pr-6">
