@@ -7,17 +7,7 @@ cloudinary.config({
 });
 
 export async function getCloudinaryImages() {
-  try {
-    const result = await cloudinary.api.resources({
-      type: 'upload',
-      max_results: 500,
-      direction: 'desc',
-      sort_by: 'created_at',
-      resource_type: 'image',
-      context: true,
-    });
-
-    interface CloudinaryResource {
+  interface CloudinaryResource {
       public_id: string;
       secure_url: string;
       width: number;
@@ -34,29 +24,42 @@ export async function getCloudinaryImages() {
       created_at: string;
     }
 
-    return result.resources.map((resource: CloudinaryResource) => {
-      // Create an optimized URL with Cloudinary transformations
-      const optimizedUrl = cloudinary.url(resource.public_id, {
-        format: 'webp',
-        quality: 'auto:best',
-        transformation: [
-          { width: 'auto', dpr: 'auto', fetch_format: 'auto' },
-          { responsive: true, width: 800, crop: 'scale' },
-        ],
-        secure: true,
+    try {
+      const result = await cloudinary.api.resources({
+        type: 'upload',
+        max_results: 500,
+        direction: 'desc',
+        sort_by: 'created_at',
+        resource_type: 'image',
+        context: true,
       });
 
-      return {
-        id: resource.public_id,
-        url: optimizedUrl,
-        width: resource.width,
-        height: resource.height,
-        caption: resource.context?.custom?.caption || resource.context?.caption || '',
-        alt: resource.context?.custom?.alt || resource.context?.alt || '',
-        format: resource.format,
-        created_at: resource.created_at,
-      };
-    });
+      console.log('Total images from Cloudinary:', result.resources.length);
+      console.log('Image IDs:', result.resources.map((r: CloudinaryResource) => r.public_id));
+
+      return result.resources.map((resource: CloudinaryResource) => {
+        // Create an optimized URL with Cloudinary transformations
+        const optimizedUrl = cloudinary.url(resource.public_id, {
+          format: 'webp',
+          quality: 'auto:best',
+          transformation: [
+            { width: 'auto', dpr: 'auto', fetch_format: 'auto' },
+            { responsive: true, width: 800, crop: 'scale' },
+          ],
+          secure: true,
+        });
+
+        return {
+          id: resource.public_id,
+          url: optimizedUrl,
+          width: resource.width,
+          height: resource.height,
+          caption: resource.context?.custom?.caption || resource.context?.caption || '',
+          alt: resource.context?.custom?.alt || resource.context?.alt || '',
+          format: resource.format,
+          created_at: resource.created_at,
+        };
+      });
   } catch (error) {
     console.error('Error fetching images:', error);
     return [];

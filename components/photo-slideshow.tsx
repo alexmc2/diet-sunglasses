@@ -33,6 +33,7 @@ export default function PhotoSlideshow({
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [autoPlayInterval, setAutoPlayInterval] = useState(5000);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [recentIndices, setRecentIndices] = useState<number[]>([initialIndex]);
 
   const currentImage = images[currentIndex];
   const nextImage = nextIndex !== null ? images[nextIndex] : null;
@@ -53,21 +54,39 @@ export default function PhotoSlideshow({
     [isTransitioning]
   );
 
+  const getRandomIndex = useCallback(() => {
+    // Keep track of recent images to avoid repetition
+    const recentCount = Math.min(Math.floor(images.length / 3), 10);
+    const recent = recentIndices.slice(-recentCount);
+    
+    // Get available indices (not in recent list)
+    const availableIndices = images
+      .map((_, index) => index)
+      .filter(index => !recent.includes(index));
+    
+    // If all images have been shown recently, reset but exclude current
+    if (availableIndices.length === 0) {
+      return images
+        .map((_, index) => index)
+        .filter(index => index !== currentIndex)
+        [Math.floor(Math.random() * (images.length - 1))];
+    }
+    
+    // Pick a random index from available ones
+    return availableIndices[Math.floor(Math.random() * availableIndices.length)];
+  }, [currentIndex, images, recentIndices]);
+
   const goToNext = useCallback(() => {
-    let newIndex;
-    do {
-      newIndex = Math.floor(Math.random() * images.length);
-    } while (newIndex === currentIndex && images.length > 1);
+    const newIndex = getRandomIndex();
     transition(newIndex);
-  }, [currentIndex, images.length, transition]);
+    setRecentIndices(prev => [...prev, newIndex].slice(-Math.min(images.length - 1, 10)));
+  }, [getRandomIndex, transition, images.length]);
 
   const goToPrevious = useCallback(() => {
-    let newIndex;
-    do {
-      newIndex = Math.floor(Math.random() * images.length);
-    } while (newIndex === currentIndex && images.length > 1);
+    const newIndex = getRandomIndex();
     transition(newIndex);
-  }, [currentIndex, images.length, transition]);
+    setRecentIndices(prev => [...prev, newIndex].slice(-Math.min(images.length - 1, 10)));
+  }, [getRandomIndex, transition, images.length]);
 
 
   const togglePlayPause = () => {
@@ -231,7 +250,7 @@ export default function PhotoSlideshow({
               onValueChange={(value) => handleIntervalChange(Number(value))}
             >
               <SelectTrigger
-                className="w-[60px] h-7 text-xs text-slate-200 border-slate-600"
+                className="w-[50px] h-7 text-xs text-slate-200 border-slate-600"
                 aria-label="Change slideshow speed"
               >
                 <SelectValue />

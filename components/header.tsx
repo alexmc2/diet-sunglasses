@@ -1,7 +1,10 @@
 export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 h-24 flex items-start justify-between z-30 pt-4 md:pt-4">
-      <h1 className="text-4xl md:text-6xl font-bold text-slate-300 tracking-tight pl-4 md:pl-8">diet sunglasses</h1>
+      <h1 className="text-4xl md:text-6xl font-bold text-slate-300 tracking-tight pl-4 md:pl-8">
+        <span className="md:hidden">diet sunglasses</span>
+        <span className="hidden md:inline">diet sunglasses photography</span>
+      </h1>
       
       <div className="flex items-center gap-1 md:gap-4 pt-1 md:pt-2 pr-2 md:pr-6">
         {/* Contact icon */}
